@@ -61,7 +61,7 @@ const open = defineModel<boolean>();
 const { metaIcon } = useDevice();
 
 // const shiftKey = "⇧";
-const shiftKey = "Shift";
+const shiftKey = __("Shift");
 
 interface Shortcut {
   keys: string[];

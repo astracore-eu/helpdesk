@@ -69,7 +69,7 @@
           </div>
           <div class="flex items-center justify-end space-x-2 w-[40%]">
             <Button
-              label="Discard"
+              :label="__('Discard')"
               @click="
                 () => {
                   newComment = '';
@@ -106,6 +106,7 @@ import {
 } from "frappe-ui";
 import { useOnboarding } from "frappe-ui/frappe";
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { __ } from "@/translation";
 
 import { AttachmentItem } from "@/components/";
 import { AttachmentIcon } from "@/components/icons/";

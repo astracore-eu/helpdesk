@@ -65,7 +65,7 @@ export const popularProviderFields = [
 export const customProviderFields = [
   ...fixedFields,
   {
-    label: "Frappe Mail Site",
+    label: "AstraCore Mail Site",
     name: "frappe_mail_site",
     type: "text",
     placeholder: "https://frappemail.com",
@@ -134,9 +134,9 @@ export const services: EmailService[] = [
     custom: false,
   },
   {
-    name: "Frappe Mail",
+    name: "AstraCore Mail",
     icon: LogoFrappeMail,
-    info: `Setting up Frappe Mail requires you to have an API key and API Secret of your email account. Read more `,
+    info: `Setting up AstraCore Mail requires you to have an API key and API Secret of your email account. Read more `,
     link: "https://github.com/frappe/mail",
     custom: true,
   },
@@ -149,7 +149,7 @@ export const emailIcon = {
   SparkPost: LogoSparkpost,
   Yahoo: LogoYahoo,
   Yandex: LogoYandex,
-  "Frappe Mail": LogoFrappeMail,
+  "AstraCore Mail": LogoFrappeMail,
 };
 
 export function validateInputs(state: EmailAccount, isCustom: boolean) {

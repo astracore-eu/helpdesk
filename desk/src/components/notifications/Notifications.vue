@@ -13,7 +13,7 @@
     <div
       class="sticky top-0 z-10 flex items-center justify-between border-b bg-white px-5 py-2.5"
     >
-      <span class="text-lg font-medium">Notifications</span>
+      <span class="text-lg font-medium">{{ __("Notifications") }}</span>
       <div>
         <Button
           theme="blue"
@@ -53,15 +53,15 @@
           <div class="mb-2 leading-5">
             <span class="space-x-1 text-gray-700">
               <span class="font-medium text-gray-900">{{ n.user_from }}</span>
-              <span v-if="n.notification_type === 'Mention'"
-                >mentioned you in ticket</span
-              >
-              <span v-if="n.notification_type === 'Assignment'"
-                >assigned you a ticket</span
-              >
-              <span v-if="n.notification_type === 'Reaction'"
-                >has reopened the ticket</span
-              >
+              <span v-if="n.notification_type === 'Mention'">{{
+                __("mentioned you in ticket")
+              }}</span>
+              <span v-if="n.notification_type === 'Assignment'">{{
+                __("assigned you a ticket")
+              }}</span>
+              <span v-if="n.notification_type === 'Reaction'">{{
+                __("has reopened the ticket")
+              }}</span>
               <span class="font-medium text-gray-900">{{
                 n.reference_ticket
               }}</span>
@@ -81,7 +81,9 @@
       v-else
     >
       <LucideBell class="size-6" />
-      <p class="text-base text-ink-gray-8">You are all caught up!</p>
+      <p class="text-base text-ink-gray-8">
+        {{ __("You are all caught up!") }}
+      </p>
     </div>
   </span>
 </template>
@@ -94,6 +96,7 @@ import { useSidebarStore } from "@/stores/sidebar";
 import { Notification } from "@/types";
 import { onClickOutside } from "@vueuse/core";
 import { ref } from "vue";
+import { __ } from "@/translation";
 
 const notificationStore = useNotificationStore();
 const sidebarStore = useSidebarStore();

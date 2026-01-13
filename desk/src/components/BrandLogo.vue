@@ -5,11 +5,16 @@
     alt="Brand Logo"
     class="h-8 w-8 shrink-0 object-cover"
   />
-  <HDLogo v-else class="h-8 w-8 shrink-0 rounded" />
+  <img
+    v-else
+    :src="firmLogo"
+    alt="Brand Logo"
+    class="h-8 w-8 shrink-0 object-contain"
+  />
 </template>
 
 <script setup lang="ts">
-import HDLogo from "@/assets/logos/HDLogo.vue";
+import firmLogo from "@/assets/logos/firmLogo-noBackground.png";
 
 import { useConfigStore } from "@/stores/config";
 const config = useConfigStore();

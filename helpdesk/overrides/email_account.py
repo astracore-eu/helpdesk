@@ -52,7 +52,7 @@ class CustomEmailAccount(EmailAccount):
             return []
 
         try:
-            if self.service == "Frappe Mail":
+            if self.service == "AstraCore Mail":
                 frappe_mail_client = self.get_frappe_mail_client()
                 messages = frappe_mail_client.pull_raw(
                     last_received_at=self.last_synced_at

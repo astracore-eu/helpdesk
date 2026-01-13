@@ -22,7 +22,7 @@
             <div class="mb-3 flex flex-col gap-1">
               <SidebarLink
                 class="relative"
-                label="Notifications"
+                :label="__('Notifications')"
                 :icon="LucideBell"
                 :on-click="() => (sidebarOpened = false)"
                 :is-expanded="true"
@@ -40,7 +40,7 @@
               <SidebarLink
                 v-if="!isCustomerPortal"
                 class="relative"
-                label="Dashboard"
+                :label="__('Dashboard')"
                 :icon="LucideLayoutDashboard"
                 :to="'Dashboard'"
                 :is-active="isActiveTab('Dashboard')"
@@ -117,6 +117,7 @@ import { computed, markRaw, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import { Section } from "@/components";
+import { __ } from "@/translation";
 import SidebarLink from "@/components/SidebarLink.vue";
 import UserMenu from "@/components/UserMenu.vue";
 import { useNotificationStore } from "@/stores/notification";
@@ -218,16 +219,6 @@ const agentPortalDropdown = computed(() => [
       const path = router.resolve({ name: "TicketsCustomer" });
       window.open(path.href);
     },
-  },
-  {
-    icon: "life-buoy",
-    label: "Support",
-    onClick: () => window.open("https://t.me/frappedesk"),
-  },
-  {
-    icon: "book-open",
-    label: "Docs",
-    onClick: () => window.open("https://docs.frappe.io/helpdesk"),
   },
   {
     label: "Log out",

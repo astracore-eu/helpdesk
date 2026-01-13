@@ -492,7 +492,7 @@ function handleFieldClick(e: MouseEvent, column, row, item) {
   e.stopPropagation();
   e.preventDefault();
 
-  if (column.label == "Status" && options.value.doctype === "HD Ticket") {
+  if (column.key === "status" && options.value.doctype === "HD Ticket") {
     item = getStatus(item)?.label_agent;
   }
 

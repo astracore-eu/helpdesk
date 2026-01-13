@@ -40,7 +40,7 @@
         <Dropdown :options="filterOptions" placement="right">
           <template #default="{ open }">
             <Button
-              :label="activeFilter"
+              :label="activeFilterLabel"
               class="flex items-center justify-between w-fit p-4"
             >
               <template #suffix>
@@ -162,7 +162,7 @@
                   :is="getScopeIcon(savedReply.scope)"
                   class="size-4"
                 />
-                {{ savedReply.scope }}
+                {{ __(savedReply.scope) }}
               </div>
               <Dropdown
                 placement="right"
@@ -354,6 +354,17 @@ const filterOptions = computed(() => {
     options.pop();
   }
   return options;
+});
+
+if (activeFilter.value === "My Team") {
+  activeFilter.value = "Team";
+}
+
+const activeFilterLabel = computed(() => {
+  return (
+    filterOptions.value.find((option) => option.value === activeFilter.value)
+      ?.label || __(activeFilter.value)
+  );
 });
 
 const applyFilter = (scope: string) => {

@@ -18,7 +18,7 @@ https://support.frappe.io/helpdesk</a>
 <br><br>
 Best,
 <br>
-Ritvik Sardana | Frappe Helpdesk.
+Ritvik Sardana | Astra.Helpdesk.
 """
 
 

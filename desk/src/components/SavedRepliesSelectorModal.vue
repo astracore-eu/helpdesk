@@ -40,7 +40,7 @@
               />
             </div>
             <Dropdown :options="filters" placement="right">
-              <Button :label="activeFilter" icon-left="filter" class="p-4">
+              <Button :label="activeFilterLabel" icon-left="filter" class="p-4">
                 <template #suffix>
                   <p
                     class="flex h-5 w-5 items-center justify-center rounded-[5px] bg-surface-white pt-px text-xs font-medium text-ink-gray-8 shadow-sm"
@@ -167,7 +167,7 @@ const filters = computed(() => {
     {
       label: __("My Team"),
       value: "Team",
-      onClick: () => (activeFilter.value = "My Team"),
+      onClick: () => (activeFilter.value = "Team"),
     },
     {
       label: __("Global"),
@@ -189,6 +189,9 @@ if (
 ) {
   activeFilter.value = "Personal";
 }
+if (activeFilter.value === "My Team") {
+  activeFilter.value = "Team";
+}
 
 const emit = defineEmits(["apply"]);
 
@@ -199,9 +202,14 @@ const selectedTemplate = ref({
   isLoading: false,
 });
 
-const scope = computed(() => {
-  return filters.value.find((f) => f.label === activeFilter.value)?.value;
+const activeFilterLabel = computed(() => {
+  return (
+    filters.value.find((f) => f.value === activeFilter.value)?.label ||
+    __(activeFilter.value)
+  );
 });
+
+const scope = computed(() => activeFilter.value);
 
 const savedReplyListResource = createListResource({
   doctype: "HD Saved Reply",

@@ -146,7 +146,7 @@
       v-model="showHelpModal"
       v-model:articles="articles"
       appName="helpdesk"
-      title="Frappe Helpdesk"
+      title="Astra.Helpdesk"
       :logo="logo"
       docsLink="https://docs.frappe.io/helpdesk"
       :afterSkip="(step) => capture('onboarding_step_skipped_' + step)"
@@ -163,11 +163,10 @@
 </template>
 
 <script setup lang="ts">
-import HDLogo from "@/assets/logos/HDLogo.vue";
 import { Section, SidebarLink } from "@/components";
-import Apps from "@/components/Apps.vue";
 import CP from "@/components/command-palette/CP.vue";
-import { FrappeCloudIcon, InviteCustomer } from "@/components/icons";
+import AstraCoreLogoIcon from "@/components/icons/AstraCoreLogoIcon.vue";
+import { InviteCustomer } from "@/components/icons";
 import ShortcutsModal from "@/components/modals/ShortcutsModal.vue";
 import SettingsModal from "@/components/Settings/SettingsModal.vue";
 import UserMenu from "@/components/UserMenu.vue";
@@ -208,6 +207,7 @@ import {
 
 import { useShortcut } from "@/composables/shortcuts";
 import { useTelephonyStore } from "@/stores/telephony";
+import firmLogo from "@/assets/logos/firmLogo-noBackground.png";
 import { __ } from "@/translation";
 import LucideArrowLeftFromLine from "~icons/lucide/arrow-left-from-line";
 import LucideArrowRightFromLine from "~icons/lucide/arrow-right-from-line";
@@ -313,9 +313,6 @@ const customerPortalDropdown = computed(() => [
 
 const agentPortalDropdown = computed(() => [
   {
-    component: markRaw(Apps),
-  },
-  {
     label: __("Customer portal"),
     icon: "users",
     onClick: () => {
@@ -324,18 +321,8 @@ const agentPortalDropdown = computed(() => [
     },
   },
   {
-    icon: "life-buoy",
-    label: __("Support"),
-    onClick: () => window.open("https://t.me/frappedesk"),
-  },
-  {
-    icon: "book-open",
-    label: __("Docs"),
-    onClick: () => window.open("https://docs.frappe.io/helpdesk"),
-  },
-  {
-    label: __("Login to Frappe Cloud"),
-    icon: FrappeCloudIcon,
+    label: __("Login to AstraCore Cloud"),
+    icon: AstraCoreLogoIcon,
     onClick: () => confirmLoginToFrappeCloud(),
     condition: () => !isMobileView.value && window.is_fc_site,
   },
@@ -379,13 +366,11 @@ function openCommandPalette() {
   showCommandPalette.value = true;
 }
 
-const logo = h(
-  HDLogo,
-  {
-    class: "h-12 w-12",
-  },
-  null
-);
+const logo = h("img", {
+  src: firmLogo,
+  alt: "Astra.Helpdesk",
+  class: "h-12 w-12 object-contain",
+});
 
 const showOnboardingBanner = computed(() => {
   return (
@@ -573,7 +558,7 @@ const articles = ref([
       { name: "contact", title: "Contact" },
       { name: "customer", title: "Customer" },
       { name: "knowledge-base", title: "Knowledge Base" },
-      { name: "saved-replies", title: "Saved Replies" },
+      { name: "saved-replies", title: __("Saved Replies") },
       { name: "service-level-agreement", title: "Service Level Agreement" },
       { name: "ticket-type", title: "Ticket Type" },
       { name: "ticket-priority", title: "Ticket Priority" },
@@ -593,7 +578,7 @@ const articles = ref([
     ],
   },
   {
-    title: "Frappe Helpdesk Mobile",
+    title: "Astra.Helpdesk Mobile",
     opened: false,
     subArticles: [
       { name: "pwa-installation", title: "Mobile App Installation" },

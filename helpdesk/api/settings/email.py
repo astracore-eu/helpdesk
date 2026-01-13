@@ -31,7 +31,7 @@ def create_email_account(data):
                 **service_config,
             }
         )
-        if service == "Frappe Mail":
+        if service == "AstraCore Mail":
             email_doc.api_key = data.get("api_key")
             email_doc.api_secret = data.get("api_secret")
             email_doc.frappe_mail_site = data.get("frappe_mail_site")
@@ -51,7 +51,7 @@ def create_email_account(data):
 
 
 email_service_config = {
-    "Frappe Mail": {
+    "AstraCore Mail": {
         "domain": None,
         "password": None,
         "awaiting_password": 0,
