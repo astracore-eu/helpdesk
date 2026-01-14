@@ -4283,8 +4283,8 @@ msgstr "Следващите 6 месеца"
 msgid "Next Year"
 msgstr "Следващата година"
 
-msgid "Login to AstraCore Cloud"
-msgstr "Вход в AstraCore Cloud"
+msgid "Login to AstraCore"
+msgstr "Вход в AstraCore"
 
 msgid "Keyboard Shortcuts"
 msgstr "Клавишни комбинации"

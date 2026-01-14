@@ -321,7 +321,7 @@ const agentPortalDropdown = computed(() => [
     },
   },
   {
-    label: __("Login to AstraCore Cloud"),
+    label: __("Login to AstraCore"),
     icon: AstraCoreLogoIcon,
     onClick: () => confirmLoginToFrappeCloud(),
     condition: () => !isMobileView.value && window.is_fc_site,
