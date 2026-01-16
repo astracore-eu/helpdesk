@@ -18,6 +18,8 @@ export function initSocket() {
   const socket = io(url, {
     withCredentials: true,
     reconnectionAttempts: 5,
+    transports: ["websocket"],
+    upgrade: false,
   });
 
   return socket;
