@@ -115,19 +115,6 @@
         appName="helpdesk"
       />
       <SidebarLink
-        v-if="isOnboardingStepsCompleted && !isCustomerPortal"
-        :icon="HelpIcon"
-        :label="__('Help')"
-        :is-expanded="isExpanded"
-        @click="
-          () => {
-            showHelpModal = minimize ? true : !showHelpModal;
-            minimize = !showHelpModal;
-          }
-        "
-      />
-
-      <SidebarLink
         :icon="isExpanded ? LucideArrowLeftFromLine : LucideArrowRightFromLine"
         :is-active="false"
         :is-expanded="isExpanded"
@@ -196,7 +183,6 @@ import {
   useOnboarding,
 } from "frappe-ui/frappe";
 
-import { HelpIcon } from "frappe-ui/icons";
 import { storeToRefs } from "pinia";
 import { computed, h, markRaw, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
