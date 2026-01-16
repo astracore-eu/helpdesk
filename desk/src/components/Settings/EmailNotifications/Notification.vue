@@ -70,20 +70,7 @@
               v-model="content"
               :oninput="setUnsavedChanges"
             />
-            <div class="flex gap-x-1 items-start justify-between">
-              <p class="text-sm text-gray-700 leading-5">
-                {{
-                  __(
-                    "Find out all of the variables that can be used in the content"
-                  )
-                }}
-                <a
-                  :href="props.documentationLink"
-                  target="_blank"
-                  class="underline font-semibold"
-                  >{{ __("here") }}</a
-                >
-              </p>
+            <div class="flex items-start justify-between">
               <Button
                 :disabled="content === defaultContent"
                 type="button"
@@ -143,7 +130,6 @@ import SettingsLayoutBase from "@/components/layouts/SettingsLayoutBase.vue";
 const props = defineProps<{
   title: string;
   description: string;
-  documentationLink: string;
   defaultContent: string;
   onBack: () => void;
   onSubmit: (e: Event & { target: HTMLFormElement }) => void;

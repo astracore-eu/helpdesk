@@ -21,13 +21,6 @@
             />
             <div class="text-wrap text-xs text-gray-700">
               {{ info.description }}
-              <a
-                :href="info.link"
-                target="_blank"
-                class="text-ink-blue-2 underline"
-                >here</a
-              >
-              .
             </div>
           </div>
           <!-- fields -->
@@ -144,8 +137,7 @@ const state = reactive({
 });
 
 const info = {
-  description: __("To know more about setting up email accounts, click"),
-  link: "https://docs.erpnext.com/docs/user/manual/en/email-account",
+  description: __("Set up your email account using the details below."),
 };
 
 const isCustomService = computed(() => {

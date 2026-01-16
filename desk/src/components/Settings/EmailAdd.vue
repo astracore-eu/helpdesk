@@ -11,7 +11,7 @@
           <!-- email service provider selection -->
           <div class="flex flex-wrap items-center gap-4">
             <div
-              v-for="s in services"
+              v-for="s in availableServices"
               :key="s.name"
               class="min-w-3 flex flex-col items-center gap-1"
               @click="handleSelect(s)"
@@ -142,6 +142,9 @@ const state: Reactive<EmailAccount> = reactive({
 });
 
 const selectedService: Ref<EmailService> = ref(null);
+const availableServices = computed(() =>
+  services.filter((service) => service.name !== "AstraCore Mail")
+);
 const fields = computed(() =>
   selectedService.value.custom ? customProviderFields : popularProviderFields
 );
