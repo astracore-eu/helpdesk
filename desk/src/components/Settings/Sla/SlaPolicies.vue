@@ -12,12 +12,6 @@
             "SLAs align your team and customers with defined timelines for a reliable experience."
           )
         }}
-        <a
-          href="https://docs.frappe.io/helpdesk/service-level-agreement"
-          target="_blank"
-          class="underline"
-          >{{ __("Learn more about SLA") }}
-        </a>
       </p>
     </template>
     <template #header-actions>

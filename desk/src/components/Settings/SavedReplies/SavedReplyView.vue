@@ -108,9 +108,6 @@
         <div class="space-y-1.5">
           <div class="flex items-center justify-between">
             <FormLabel :label="__('Response')" required />
-            <DocumentationButton
-              url="https://docs.frappe.io/helpdesk/saved-replies"
-            />
           </div>
           <PreviewDialog v-model="previewDialog" />
           <TextEditor
@@ -167,7 +164,6 @@ import { __ } from "@/translation";
 import PreviewDialog from "./components/PreviewDialog.vue";
 import { menuButtons } from "./savedReplies";
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
-import DocumentationButton from "@/components/DocumentationButton.vue";
 import { storeToRefs } from "pinia";
 import { useConfigStore } from "@/stores/config";
 import { useAuthStore } from "@/stores/auth";

@@ -135,7 +135,6 @@
       appName="helpdesk"
       title="Astra.Helpdesk"
       :logo="logo"
-      docsLink="https://docs.frappe.io/helpdesk"
       :afterSkip="(step) => capture('onboarding_step_skipped_' + step)"
       :afterSkipAll="() => capture('onboarding_steps_skipped')"
       :afterReset="(step) => capture('onboarding_step_reset_' + step)"

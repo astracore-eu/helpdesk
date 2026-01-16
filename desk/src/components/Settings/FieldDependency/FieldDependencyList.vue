@@ -5,10 +5,6 @@
         <h1 class="text-lg font-semibold text-ink-gray-8">
           {{ __("Field Dependencies") }}
         </h1>
-        <DocumentationButton
-          url="https://docs.frappe.io/helpdesk/field-dependency"
-          color="!text-ink-gray-6"
-        />
       </div>
     </template>
     <template #description>
@@ -157,7 +153,6 @@ import {
 import { getFieldDependencyLabel, ConfirmDelete } from "@/utils";
 import { onMounted, ref } from "vue";
 import { fieldDependenciesList } from "./fieldDependency";
-import DocumentationButton from "@/components/DocumentationButton.vue";
 import FieldDependencyIcon from "@/components/icons/FieldDependencyIcon.vue";
 import { __ } from "@/translation";
 import SettingsLayoutBase from "@/components/layouts/SettingsLayoutBase.vue";
