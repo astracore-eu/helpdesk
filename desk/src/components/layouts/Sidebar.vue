@@ -109,11 +109,6 @@
         v-if="isFCSite && !isCustomerPortal"
         :isSidebarCollapsed="!isExpanded"
       />
-      <GettingStartedBanner
-        v-if="showOnboardingBanner"
-        :isSidebarCollapsed="!isExpanded"
-        appName="helpdesk"
-      />
       <SidebarLink
         :icon="isExpanded ? LucideArrowLeftFromLine : LucideArrowRightFromLine"
         :is-active="false"
@@ -160,7 +155,6 @@ import { useSidebarStore } from "@/stores/sidebar";
 import { isCustomerPortal } from "@/utils";
 import { call } from "frappe-ui";
 import {
-  GettingStartedBanner,
   IntermediateStepModal,
   minimize,
   TrialBanner,
@@ -335,14 +329,6 @@ function openCommandPalette() {
   showCommandPalette.value = true;
 }
 
-const showOnboardingBanner = computed(() => {
-  return (
-    !isCustomerPortal.value &&
-    !isOnboardingStepsCompleted.value &&
-    authStore.isManager
-  );
-});
-
 const steps = [
   {
     name: "setup_email_account",
@@ -475,8 +461,7 @@ const steps = [
 const showIntermediateModal = ref(false);
 const currentStep = ref({});
 
-const { isOnboardingStepsCompleted, setUp, updateOnboardingStep } =
-  useOnboarding("helpdesk");
+const { setUp, updateOnboardingStep } = useOnboarding("helpdesk");
 
 async function handleFirstTicketNavigation() {
   const ticket = await getFirstTicket();
