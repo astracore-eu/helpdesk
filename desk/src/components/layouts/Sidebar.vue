@@ -128,18 +128,6 @@
     />
     <SettingsModal v-model="showSettingsModal" />
     <ShortcutsModal v-model="showShortcutsModal" />
-    <HelpModal
-      v-if="showHelpModal"
-      v-model="showHelpModal"
-      v-model:articles="articles"
-      appName="helpdesk"
-      title="Astra.Helpdesk"
-      :logo="logo"
-      :afterSkip="(step) => capture('onboarding_step_skipped_' + step)"
-      :afterSkipAll="() => capture('onboarding_steps_skipped')"
-      :afterReset="(step) => capture('onboarding_step_reset_' + step)"
-      :afterResetAll="() => capture('onboarding_steps_reset')"
-    />
     <IntermediateStepModal
       v-model="showIntermediateModal"
       :currentStep="currentStep"
@@ -169,15 +157,12 @@ import {
 import { useAuthStore } from "@/stores/auth";
 import { useNotificationStore } from "@/stores/notification";
 import { useSidebarStore } from "@/stores/sidebar";
-import { capture } from "@/telemetry";
 import { isCustomerPortal } from "@/utils";
 import { call } from "frappe-ui";
 import {
   GettingStartedBanner,
-  HelpModal,
   IntermediateStepModal,
   minimize,
-  showHelpModal,
   TrialBanner,
   useOnboarding,
 } from "frappe-ui/frappe";
@@ -192,7 +177,6 @@ import {
 
 import { useShortcut } from "@/composables/shortcuts";
 import { useTelephonyStore } from "@/stores/telephony";
-import firmLogo from "@/assets/logos/firmLogo-noBackground.png";
 import { __ } from "@/translation";
 import LucideArrowLeftFromLine from "~icons/lucide/arrow-left-from-line";
 import LucideArrowRightFromLine from "~icons/lucide/arrow-right-from-line";
@@ -351,12 +335,6 @@ function openCommandPalette() {
   showCommandPalette.value = true;
 }
 
-const logo = h("img", {
-  src: firmLogo,
-  alt: "Astra.Helpdesk",
-  class: "h-12 w-12 object-contain",
-});
-
 const showOnboardingBanner = computed(() => {
   return (
     !isCustomerPortal.value &&
@@ -494,83 +472,6 @@ const steps = [
   },
 ];
 
-const articles = ref([
-  {
-    title: "Introduction",
-    opened: false,
-    subArticles: [
-      { name: "introduction", title: "Introduction" },
-      { name: "setting-up", title: "Setting up" },
-    ],
-  },
-  {
-    title: "Getting Started",
-    opened: false,
-    subArticles: [
-      {
-        name: "lesson-1-your-first-ticket",
-        title: "Creating a ticket",
-      },
-      {
-        name: "lesson-2understanding-ticket-view",
-        title: "Understanding ticket view",
-      },
-      {
-        name: "lesson-3-agents-teams",
-        title: "Agents & Teams",
-      },
-      {
-        name: "customers-contacts",
-        title: "Customers & Contacts",
-      },
-      {
-        name: "lesson-4-knowledge-base",
-        title: "Knowledge Base",
-      },
-      {
-        name: "customer-portal",
-        title: "Customer Portal",
-      },
-    ],
-  },
-  {
-    title: "Masters",
-    opened: false,
-    subArticles: [
-      { name: "ticket", title: "Ticket" },
-      { name: "agent", title: "Agent" },
-      { name: "team", title: "Team" },
-      { name: "contact", title: "Contact" },
-      { name: "customer", title: "Customer" },
-      { name: "knowledge-base", title: "Knowledge Base" },
-      { name: "saved-replies", title: __("Saved Replies") },
-      { name: "service-level-agreement", title: "Service Level Agreement" },
-      { name: "ticket-type", title: "Ticket Type" },
-      { name: "ticket-priority", title: "Ticket Priority" },
-    ],
-  },
-  {
-    title: "Customizations",
-    opened: false,
-    subArticles: [
-      { name: "custom-actions", title: "Custom Actions" },
-      { name: "field-dependency", title: "Field Dependency" },
-      { name: "custom-views", title: "Custom Views" },
-      {
-        name: "settings",
-        title: "Settings",
-      },
-    ],
-  },
-  {
-    title: "Astra.Helpdesk Mobile",
-    opened: false,
-    subArticles: [
-      { name: "pwa-installation", title: "Mobile App Installation" },
-    ],
-  },
-]);
-
 const showIntermediateModal = ref(false);
 const currentStep = ref({});
 
@@ -611,9 +512,6 @@ async function getGeneralCategory() {
 function setUpOnboarding() {
   if (!authStore.isManager) return;
   setUp(steps);
-  useShortcut({ key: "h", meta: true }, () => {
-    showHelpModal.value = !showHelpModal.value;
-  });
 }
 
 onMounted(() => {
