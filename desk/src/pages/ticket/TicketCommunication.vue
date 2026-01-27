@@ -57,9 +57,15 @@ function sanitize(html: string) {
   return sanitizeHtml(html, {
     allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "video"]),
     allowedAttributes: {
+      "*": ["style"],
       a: ["href"],
       video: ["src", "controls"],
       img: ["src"],
+      font: ["color", "face", "size"],
+      td: ["align", "valign", "bgcolor", "width", "height"],
+      th: ["align", "valign", "bgcolor", "width", "height"],
+      tr: ["align", "valign", "bgcolor"],
+      table: ["align", "border", "cellpadding", "cellspacing", "width"],
     },
   });
 }

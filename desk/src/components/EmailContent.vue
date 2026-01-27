@@ -20,23 +20,6 @@ const props = defineProps({
 const iframeRef = ref<HTMLIFrameElement | null>(null);
 const _content = ref(props.content);
 
-// Get CSS path - in dev Vite serves it directly, in prod we need the built path
-const cssHref = computed(() => {
-  if (import.meta.env.DEV) {
-    return "/src/index.css";
-  }
-  // In production, find the built CSS file from the document
-  const links = document.querySelectorAll('link[rel="stylesheet"]');
-  for (const link of links) {
-    const href = link.getAttribute("href");
-    if (href?.includes("/assets/helpdesk/desk/") && href.endsWith(".css")) {
-      return href;
-    }
-  }
-  // Fallback to a reasonable path
-  return "/assets/helpdesk/desk/index.css";
-});
-
 const parser = new DOMParser();
 const doc = parser.parseFromString(_content.value, "text/html");
 
@@ -131,9 +114,18 @@ const htmlContent = computed(
   <!DOCTYPE html>
   <html>
   <head>
-    <link rel="stylesheet" href="${cssHref.value}" />
     <base target="_blank" />
     <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        color: #1f2937;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.5;
+      }
       .replied-content .collapse {
         margin: 10px 0 10px 0;
         visibility: visible;
@@ -163,47 +155,21 @@ const htmlContent = computed(
       .email-content {
         word-break: break-word;
       }
-      .email-content :is(:where(table):not(:where([class~='not-prose'], [class~='not-prose'] *))) {
+      .email-content a {
+        color: #2563eb;
+        text-decoration: underline;
+      }
+      .email-content table {
         table-layout: auto;
       }
-      .email-content :where(table):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
-        width: unset;
-        table-layout: auto;
-        text-align: unset;
-        margin-top: unset;
-        margin-bottom: unset;
-        font-size: unset;
-        line-height: unset;
-      }
-      .email-content :where(tbody tr):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
-        border-bottom-width: 0;
-        border-bottom-color: transparent;
-      }
-      .email-content :is(:where(td):not(:where([class~='not-prose'], [class~='not-prose'] *))) {
-        position: unset;
-        border-width: 0;
-        border-color: transparent;
-        padding: 0;
-      }
-      .email-content :where(tbody td):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
-        vertical-align: revert;
-      }
-      .email-content :is(:where(img):not(:where([class~='not-prose'], [class~='not-prose'] *))) {
-        border-width: 0;
-      }
-      .email-content :where(img):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
-        margin: 0;
-      }
-      .email-content :where(blockquote p:first-of-type):not(:where([class~='not-prose'], [class~='not-prose'] *))::before {
-        content: none;
-      }
-      .email-content :where(blockquote p:last-of-type):not(:where([class~='not-prose'], [class~='not-prose'] *))::after {
-        content: none;
+      .email-content img {
+        max-width: 100%;
+        height: auto;
       }
     </style>
   </head>
   <body>
-    <div class="email-content prose-f">${_content.value}</div>
+    <div class="email-content">${_content.value}</div>
   </body>
   </html>
   `
