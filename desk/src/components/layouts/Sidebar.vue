@@ -98,7 +98,16 @@
               :is-active="isActiveTab(link.to)"
               class="my-0.5 emoji"
               :onClick="link.onClick"
-            />
+            >
+              <template #right>
+                <span
+                  v-if="getViewCount(link.name) > 0"
+                  class="ml-2 inline-flex min-w-4 h-4 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-semibold text-white"
+                >
+                  {{ formatCount(getViewCount(link.name)) }}
+                </span>
+              </template>
+            </SidebarLink>
           </nav>
         </Section>
       </div>
@@ -172,6 +181,7 @@ import {
 import { useShortcut } from "@/composables/shortcuts";
 import { useTelephonyStore } from "@/stores/telephony";
 import { __ } from "@/translation";
+import { useViewCounts } from "@/composables/useViewCounts";
 import LucideArrowLeftFromLine from "~icons/lucide/arrow-left-from-line";
 import LucideArrowRightFromLine from "~icons/lucide/arrow-right-from-line";
 import LucideBell from "~icons/lucide/bell";
@@ -208,6 +218,12 @@ const showShortcutsModal = ref(false);
 const showCommandPalette = ref(false);
 
 const { pinnedViews, publicViews } = useView();
+
+const viewsForCounts = computed(() => {
+  const views = [...(publicViews.value || []), ...(pinnedViews.value || [])];
+  return views.filter((view) => view.dt === "HD Ticket");
+});
+const { counts: viewCounts } = useViewCounts(viewsForCounts);
 
 const isFCSite = ref(window.is_fc_site);
 
@@ -251,6 +267,7 @@ function parseViews(views) {
   return views.map((view) => {
     return {
       label: view.label,
+      name: view.name,
       icon: view.icon,
       to: {
         name: view.route_name,
@@ -264,6 +281,14 @@ function parseViews(views) {
       },
     };
   });
+}
+
+function getViewCount(viewName: string) {
+  return viewCounts.value?.[viewName] || 0;
+}
+
+function formatCount(count: number) {
+  return count > 99 ? "99+" : count;
 }
 
 const customerPortalDropdown = computed(() => [

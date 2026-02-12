@@ -85,7 +85,16 @@
                   :is-active="isActiveTab(link.to)"
                   class="my-0.5"
                   :onClick="link.onClick"
-                />
+                >
+                  <template #right>
+                    <span
+                      v-if="getViewCount(link.name) > 0"
+                      class="ml-2 inline-flex min-w-4 h-4 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-semibold text-white"
+                    >
+                      {{ formatCount(getViewCount(link.name)) }}
+                    </span>
+                  </template>
+                </SidebarLink>
               </nav>
             </Section>
           </div>
@@ -124,6 +133,7 @@ import { useNotificationStore } from "@/stores/notification";
 
 import { mobileSidebarOpened as sidebarOpened } from "@/composables/mobile";
 import { currentView, useView } from "@/composables/useView";
+import { useViewCounts } from "@/composables/useViewCounts";
 
 import LucideBell from "~icons/lucide/bell";
 import LucideLayoutDashboard from "~icons/lucide/layout-dashboard";
@@ -138,6 +148,12 @@ import {
 import { useTelephonyStore } from "@/stores/telephony";
 import { storeToRefs } from "pinia";
 const { pinnedViews, publicViews } = useView();
+
+const viewsForCounts = computed(() => {
+  const views = [...(publicViews.value || []), ...(pinnedViews.value || [])];
+  return views.filter((view) => view.dt === "HD Ticket");
+});
+const { counts: viewCounts } = useViewCounts(viewsForCounts);
 
 const notificationStore = useNotificationStore();
 const route = useRoute();
@@ -185,6 +201,7 @@ function parseViews(views) {
   return views.map((view) => {
     return {
       label: view.label,
+      name: view.name,
       icon: view.icon,
       to: {
         name: view.route_name,
@@ -198,6 +215,14 @@ function parseViews(views) {
       },
     };
   });
+}
+
+function getViewCount(viewName: string) {
+  return viewCounts.value?.[viewName] || 0;
+}
+
+function formatCount(count: number) {
+  return count > 99 ? "99+" : count;
 }
 
 const customerPortalDropdown = computed(() => [

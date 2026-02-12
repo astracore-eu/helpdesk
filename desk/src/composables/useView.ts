@@ -166,6 +166,8 @@ export function useView(dt: string = null) {
     return {
       label: view.label,
       name: view.name,
+      dt: view.dt,
+      filters: view.filters,
       icon: getIcon(view.icon),
       route_name: view.route_name,
       onClick: () => {
