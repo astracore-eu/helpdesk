@@ -350,7 +350,7 @@ def merge_ticket(source: int, target: int):
 
     doc = frappe.get_doc("HD Ticket", source)
 
-    doc.status = "Closed"
+    doc.status = "Решен"
     doc.is_merged = 1
     doc.merged_with = target
     doc.save()
