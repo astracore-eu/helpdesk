@@ -1,37 +1,19 @@
 <template>
-  <div
-    class="h-full overflow-y-hidden flex flex-1 flex-col justify-between overflow-hidden max-h-full"
-  >
+  <div class="h-full overflow-y-hidden flex flex-1 flex-col justify-between overflow-hidden max-h-full">
     <div class="px-5 pb-4 flex flex-col">
       <!-- User avatar with buttons -->
       <TicketContact />
       <!-- Core Fields -->
       <div>
-        <div
-          v-for="(section, index) in coreFields"
-          :key="index"
-          :class="
-            section.group ? 'flex gap-2 items-center w-full mb-3' : 'mb-3'
-          "
-        >
+        <div v-for="(section, index) in coreFields" :key="index" :class="section.group ? 'flex gap-2 items-center w-full mb-3' : 'mb-3'
+          ">
           <template v-for="field in section.fields">
-            <Link
-              v-if="field.visible"
-              :key="field.fieldname"
-              :ref="(el) => setFieldRef(field.fieldname, el)"
-              class="form-control-core"
-              :id="field.fieldname"
-              :class="section.group ? 'flex-1' : 'w-full'"
-              :page-length="10"
-              :label="field.label"
-              :placeholder="field.placeholder"
-              :doctype="field.doctype"
-              :modelValue="field.value"
-              :required="field.required"
-              @update:model-value="
-              (val:string) => handleFieldUpdate(field.fieldname, val,true)
-            "
-            />
+            <Link v-if="field.visible" :key="field.fieldname" :ref="(el) => setFieldRef(field.fieldname, el)"
+              class="form-control-core" :id="field.fieldname" :class="section.group ? 'flex-1' : 'w-full'"
+              :page-length="10" :label="field.label" :placeholder="field.placeholder" :doctype="field.doctype"
+              :modelValue="field.value" :required="field.required" @update:model-value="
+                (val: string) => handleFieldUpdate(field.fieldname, val, true)
+              " />
           </template>
         </div>
 
@@ -45,15 +27,9 @@
       <!-- TODO: Hack of 80 % for now, will refactor -->
       <div class="overflow-y-scroll max-h-[80%]">
         <template v-for="field in customFields">
-          <TicketField
-            v-if="field.visible"
-            :key="field.fieldname"
-            :field="field"
-            :value="field.value"
-            @change="
-              ({ fieldname, value }) => handleFieldUpdate(fieldname, value)
-            "
-          />
+          <TicketField v-if="field.visible" :key="field.fieldname" :field="field" :value="field.value" @change="
+            ({ fieldname, value }) => handleFieldUpdate(fieldname, value)
+          " />
         </template>
       </div>
     </div>
@@ -213,6 +189,7 @@ useShortcut({ key: "t", shift: true }, () => {
 :deep(.form-control-core button) {
   @apply text-base rounded h-7 py-1.5 border border-outline-gray-2 bg-surface-white placeholder-ink-gray-4 hover:border-outline-gray-3 hover:shadow-sm focus:bg-surface-white focus:border-outline-gray-4 focus:shadow-sm focus:ring-0 focus-visible:ring-0 text-ink-gray-8 transition-colors w-full dark:[color-scheme:dark];
 }
+
 :deep(.form-control-core button > div) {
   @apply truncate;
 }

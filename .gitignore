@@ -29,6 +29,7 @@ share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+.zed/
 
 helpdesk/docs/current
 helpdesk/public/desk
