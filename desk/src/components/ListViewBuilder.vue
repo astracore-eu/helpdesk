@@ -1,23 +1,13 @@
 <template>
   <!-- View Controls -->
-  <div
-    class="flex items-center justify-between gap-2 px-5 pb-4 pt-3 pl-6"
-    v-if="showViewControls"
-  >
+  <div class="flex items-center justify-between gap-2 px-5 pb-4 pt-3 pl-6" v-if="showViewControls">
     <QuickFilters v-if="!isMobileView" class="flex-1" />
     <div class="flex items-start gap-2 justify-end h-full" v-if="!isMobileView">
-      <Button
-        :label="__('Save Changes')"
-        v-if="isViewUpdated && canSaveView"
-        @click="handleViewUpdate"
-      />
+      <Button :label="__('Save Changes')" v-if="isViewUpdated && canSaveView" @click="handleViewUpdate" />
       <Reload @click="handleReload" :loading="list.loading" />
       <Filter :default_filters="defaultParams.filters" />
       <SortBy :hide-label="isMobileView" />
-      <ColumnSettings
-        :hide-label="isMobileView"
-        v-if="!options.hideColumnSetting"
-      />
+      <ColumnSettings :hide-label="isMobileView" v-if="!options.hideColumnSetting" />
     </div>
     <div v-else class="flex justify-between items-center w-full">
       <Filter :default_filters="defaultParams.filters" />
@@ -29,45 +19,26 @@
   </div>
 
   <!-- List View -->
-  <ListView
-    v-if="list.data?.data.length > 0"
-    class="flex-1"
-    :columns="columns"
-    :rows="rows"
-    row-key="name"
-    :options="{
-      selectable: options.selectable,
-      showTooltip: false,
-      resizeColumn: false,
-      getRowRoute: (row) => ({
-        name: options.rowRoute?.name,
-        params: { [options.rowRoute?.prop]: row.name },
-        query: { view: route.query?.view },
-      }),
-      emptyState,
-    }"
-  >
+  <ListView v-if="list.data?.data.length > 0" class="flex-1" :columns="columns" :rows="rows" row-key="name" :options="{
+    selectable: options.selectable,
+    showTooltip: false,
+    resizeColumn: false,
+    getRowRoute: (row) => ({
+      name: options.rowRoute?.name,
+      params: { [options.rowRoute?.prop]: row.name },
+      query: { view: route.query?.view },
+    }),
+    emptyState,
+  }">
     <ListHeader class="sm:mx-5 mx-3">
-      <ListHeaderItem
-        v-for="column in columns"
-        :key="column.key"
-        :item="column"
-        @columnWidthUpdated="(width) => console.log(width)"
-      />
+      <ListHeaderItem v-for="column in columns" :key="column.key" :item="column"
+        @columnWidthUpdated="(width) => console.log(width)" />
     </ListHeader>
-    <ListRows
-      :rows="rows"
-      v-slot="{ idx, column, item, row }"
-      :group-by-actions="options.groupByActions"
-      @scrollend="handleListScroll"
-      class="list-rows"
-    >
+    <ListRows :rows="rows" v-slot="{ idx, column, item, row }" :group-by-actions="options.groupByActions"
+      @scrollend="handleListScroll" class="list-rows">
       <ListRowItem :item="item" :column="column" :row="row">
-        <component
-          :is="listCell(column, row, item, idx)"
-          :key="column.key"
-          @click="(e) => handleFieldClick(e, column, row, item)"
-        />
+        <component :is="listCell(column, row, item, idx)" :key="column.key"
+          @click="(e) => handleFieldClick(e, column, row, item)" />
       </ListRowItem>
     </ListRows>
     <ListSelectBanner v-if="options.showSelectBanner">
@@ -80,39 +51,24 @@
   </ListView>
 
   <!-- List Footer -->
-  <div
-    class="p-20 border-t sm:px-5 px-3 py-2"
-    v-if="list.data?.data.length > 0"
-  >
-    <ListFooter
-      :options="{
-        rowCount: list?.data?.row_count,
-        totalCount: list?.data?.total_count,
-      }"
-      :pageLengthCount="defaultParams.page_length_count"
-      @loadMore="handlePageLength(defaultParams.page_length_count, true)"
-      v-model="defaultParams.page_length_count"
+  <div class="p-20 border-t sm:px-5 px-3 py-2" v-if="list.data?.data.length > 0">
+    <ListFooter :options="{
+      rowCount: list?.data?.row_count,
+      totalCount: list?.data?.total_count,
+    }" :pageLengthCount="defaultParams.page_length_count"
+      @loadMore="handlePageLength(defaultParams.page_length_count, true)" v-model="defaultParams.page_length_count"
       @update:modelValue="
         (count) => {
           handlePageLength(count);
         }
-      "
-    />
+      " />
   </div>
   <!-- Loading State -->
-  <div
-    v-else-if="list.loading"
-    class="w-full h-full flex items-center justify-center -mt-48"
-  >
+  <div v-else-if="list.loading" class="w-full h-full flex items-center justify-center -mt-48">
     <LoadingIndicator :scale="10" />
   </div>
   <!-- Empty State -->
-  <EmptyState
-    v-else
-    :title="emptyState.title"
-    :icon="emptyState.icon"
-    @emptyStateAction="emit('emptyStateAction')"
-  />
+  <EmptyState v-else :title="emptyState.title" :icon="emptyState.icon" @emptyStateAction="emit('emptyStateAction')" />
 </template>
 
 <script setup lang="ts">
@@ -138,6 +94,7 @@ import { formatTimeShort, getIcon } from "@/utils";
 import { useStorage } from "@vueuse/core";
 
 import { useTicketStatusStore } from "@/stores/ticketStatus";
+import { useTicketPriorityStore } from "@/stores/ticketPriority";
 import {
   call,
   createResource,
@@ -202,6 +159,10 @@ const router = useRouter();
 const { isManager } = useAuthStore();
 const { $dialog } = globalStore();
 const { getStatus } = useTicketStatusStore();
+const { getPriority } = useTicketPriorityStore();
+
+import { Button } from "frappe-ui";
+import { IndicatorIcon } from "./icons";
 
 const listSelections = ref(new Set());
 const defaultOptions = reactive({
@@ -317,10 +278,10 @@ const list = createResource({
 const exposeFunctions = {
   list,
   reload,
-  unselectAll: () => {},
+  unselectAll: () => { },
 };
 
-function selectBannerOptions(selections: Set<string>, unselectAll = () => {}) {
+function selectBannerOptions(selections: Set<string>, unselectAll = () => { }) {
   exposeFunctions["unselectAll"] = unselectAll;
 
   // Get the user-provided actions
@@ -474,10 +435,31 @@ function listCell(column: any, row: any, item: any, idx: number) {
       class: "truncate",
     });
   }
+
+  if (column.key === "priority" && options.value.doctype === "HD Ticket") {
+    const priority = getPriority(item);
+
+    return h(
+      Button,
+      {
+        label: item,
+        variant: "ghost",
+        class: "truncate",
+      },
+      {
+        prefix: () =>
+          h(IndicatorIcon, {
+            class: priority?.parsed_color || "",
+          }),
+      }
+    );
+  }
+
   return h("span", {
     class: "truncate flex-1",
     textContent: item,
   });
+
 }
 
 function handleFieldClick(e: MouseEvent, column, row, item) {

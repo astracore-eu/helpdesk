@@ -4,11 +4,7 @@
       <div class="flex flex-col truncate">
         <Breadcrumbs :items="breadcrumbs" class="breadcrumbs">
           <template #prefix="{ item }">
-            <Icon
-              v-if="item.icon"
-              :icon="item.icon"
-              class="mr-1 h-4 flex items-center justify-center self-center"
-            />
+            <Icon v-if="item.icon" :icon="item.icon" class="mr-1 h-4 flex items-center justify-center self-center" />
           </template>
         </Breadcrumbs>
         <TicketSLA />
@@ -16,11 +12,7 @@
     </template>
     <template #right-header>
       <div class="flex gap-2 items-center">
-        <MultipleAvatar
-          :avatars="JSON.stringify(viewers)"
-          size="md"
-          :hide-name="true"
-        />
+        <MultipleAvatar :avatars="JSON.stringify(viewers)" size="md" :hide-name="true" />
         <!-- Navigation -->
         <TicketNavigation :key="ticket.name" />
         <!-- Custom Actions -->
@@ -36,46 +28,32 @@
             <Dropdown v-slot="{ open }" :options="g.action">
               <Button :label="g.label">
                 <template #suffix>
-                  <FeatherIcon
-                    :name="open ? 'chevron-up' : 'chevron-down'"
-                    class="h-4"
-                  />
+                  <FeatherIcon :name="open ? 'chevron-up' : 'chevron-down'" class="h-4" />
                 </template>
               </Button>
             </Dropdown>
           </div>
         </div>
+
         <!-- Status -->
         <Dropdown :options="statusDropdown" placement="right">
           <template #default="{ open }">
             <Button :label="ticket.doc.status" ref="statusRef">
               <template #prefix>
-                <IndicatorIcon
-                  :class="
-                    ticketStatusStore.getStatus(ticket.doc.status)?.parsed_color
-                  "
-                />
+                <IndicatorIcon :class="ticketStatusStore.getStatus(ticket.doc.status)?.parsed_color
+                  " />
               </template>
             </Button>
           </template>
         </Dropdown>
         <!-- Core Actions + Custom Actions -->
-        <Dropdown
-          v-if="groupedActions.length"
-          :options="groupedActions"
-          placement="right"
-        >
+        <Dropdown v-if="groupedActions.length" :options="groupedActions" placement="right">
           <Button icon="more-horizontal" />
         </Dropdown>
       </div>
     </template>
   </LayoutHeader>
-  <TicketMergeModal
-    :ticket="ticket.doc"
-    v-if="showMergeModal"
-    v-model="showMergeModal"
-    @update="ticket.reload()"
-  />
+  <TicketMergeModal :ticket="ticket.doc" v-if="showMergeModal" v-model="showMergeModal" @update="ticket.reload()" />
   <TicketSubjectModal v-if="showSubjectDialog" v-model="showSubjectDialog" />
 </template>
 
@@ -181,7 +159,7 @@ const breadcrumbs = computed(() => {
   return items;
 });
 
-function updateField(fieldname: string, value: string, callback = () => {}) {
+function updateField(fieldname: string, value: string, callback = () => { }) {
   const doc = ticket.value;
   doc.setValue.submit({
     [fieldname]: value,
@@ -286,6 +264,7 @@ onMounted(() => {
 <style>
 .breadcrumbs button {
   background-color: inherit !important;
+
   &:hover,
   &:focus {
     background-color: inherit !important;

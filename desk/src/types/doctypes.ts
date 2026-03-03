@@ -17,19 +17,19 @@ interface ChildDocType extends DocType {
 export interface HDTicketStatus extends DocType {
   /** Color: Select */
   color?:
-    | "Black"
-    | "Gray"
-    | "Blue"
-    | "Green"
-    | "Red"
-    | "Pink"
-    | "Orange"
-    | "Amber"
-    | "Yellow"
-    | "Cyan"
-    | "Teal"
-    | "Violet"
-    | "purple";
+  | "Black"
+  | "Gray"
+  | "Blue"
+  | "Green"
+  | "Red"
+  | "Pink"
+  | "Orange"
+  | "Amber"
+  | "Yellow"
+  | "Cyan"
+  | "Teal"
+  | "Violet"
+  | "purple";
   /** Label: Data */
   label_agent: string;
   /** Show end users a different view: Check */
@@ -43,6 +43,29 @@ export interface HDTicketStatus extends DocType {
   /** Enabled: Check */
   enabled: 0 | 1;
   parsed_color?: string;
+}
+
+export interface HDTicketPriority extends DocType {
+  integer_value?: number;
+
+  /** Color: Select */
+  color?:
+  | "Black"
+  | "Gray"
+  | "Blue"
+  | "Green"
+  | "Red"
+  | "Pink"
+  | "Orange"
+  | "Amber"
+  | "Yellow"
+  | "Cyan"
+  | "Teal"
+  | "Violet"
+  | "purple";
+
+  parsed_color?: string;
+  description?: string;
 }
 
 // Last updated: 2025-10-26 17:07:55.243874
@@ -71,12 +94,12 @@ export interface HDTicket extends DocType {
   response_by?: string;
   /** SLA Status: Select */
   agreement_status?:
-    | ""
-    | "First Response Due"
-    | "Resolution Due"
-    | "Failed"
-    | "Fulfilled"
-    | "Paused";
+  | ""
+  | "First Response Due"
+  | "Resolution Due"
+  | "Failed"
+  | "Fulfilled"
+  | "Paused";
   /** Resolution By: Datetime */
   resolution_by?: string;
   /** SLA Creation: Datetime */
