@@ -26,6 +26,7 @@
     "socket.io-client": "^4.7.2",
     "vue": "^3.5.14",
     "vue-router": "^4.2.2",
+    "vue-sonner": "^2.0.9",
     "vuedraggable": "^4.1.0",
     "zod": "^3.21.4"
   },

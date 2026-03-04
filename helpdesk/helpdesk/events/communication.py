@@ -2,6 +2,7 @@ import frappe
 
 
 def after_insert(doc, method=None):
+    print("Firing")
     if doc.reference_doctype != "HD Ticket":
         return
 
@@ -21,7 +22,7 @@ def after_insert(doc, method=None):
 
     for user in agents:
         if doc.owner == user:
-            return
+            continue
 
         # Possible to also insert the notification in the notification panel in future
         # frappe.get_doc({
