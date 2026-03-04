@@ -50,6 +50,7 @@ onMounted(() => {
     if (data.type === "alert") {
       sonner(data.title, {
         description: data.message,
+        duration: Infinity,
         action: data.link
           ? {
               label: "Open",

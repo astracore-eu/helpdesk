@@ -30,7 +30,8 @@ class HDTicketComment(HasMentions, Document):
 
     def _notify_assigned_agents(self):
         ticket = self.reference_ticket
-        preview = frappe.utils.strip_html(self.content or "")[:80]
+        subject = frappe.db.get_value("HD Ticket", ticket, "subject") or ticket
+        sender = frappe.db.get_value("User", self.commented_by, "full_name") or self.commented_by
 
         agents = frappe.get_all(
             "ToDo",
@@ -50,8 +51,8 @@ class HDTicketComment(HasMentions, Document):
                 "helpdesk:new_message",
                 {
                     "type": "alert",
-                    "title": f"New comment in {ticket}",
-                    "message": f"{self.commented_by}: {preview}",
+                    "title": f"Ticket #{ticket}: {subject}",
+                    "message": f"From: {sender}",
                     "link": f"/helpdesk/tickets/{ticket}",
                 },
                 user=user,
