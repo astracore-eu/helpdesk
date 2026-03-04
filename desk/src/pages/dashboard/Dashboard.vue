@@ -385,6 +385,7 @@ onMounted(() => {
     filters.agent = userId;
     return;
   }
+
   // If not managers call the resources
   numberCards.reload();
   masterData.reload();

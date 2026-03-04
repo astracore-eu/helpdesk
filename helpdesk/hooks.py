@@ -63,6 +63,9 @@ doc_events = {
         "on_trash": "helpdesk.extends.assignment_rule.on_assignment_rule_trash",
         "validate": "helpdesk.extends.assignment_rule.on_assignment_rule_validate",
     },
+   "Communication": {
+        "after_insert": "helpdesk.helpdesk.events.communication.after_insert"
+    },
 }
 
 has_permission = {

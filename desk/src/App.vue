@@ -3,6 +3,7 @@
     <PortalRoot />
   </FrappeUIProvider>
   <Dialogs />
+  <Toaster rich-colors close-button position="bottom-right" />
 </template>
 
 <script setup lang="ts">
@@ -13,13 +14,20 @@ import { FrappeUIProvider, toast } from "frappe-ui";
 import { computed, defineAsyncComponent, h, onMounted, onUnmounted } from "vue";
 import Wifi from "~icons/lucide/wifi";
 import WifiOff from "~icons/lucide/wifi-off";
+import { Toaster, toast as sonner } from "vue-sonner";
+import "vue-sonner/style.css";
+
 import { useAuthStore } from "./stores/auth";
 import { useFavicon } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 import { __ } from "./translation";
 
+import { globalStore } from "@/stores/globalStore";
+
 const configStore = useConfigStore();
 const { favicon } = storeToRefs(configStore);
+
+const { $socket } = globalStore();
 
 useFavicon(favicon);
 
@@ -37,6 +45,24 @@ onMounted(() => {
       icon: h(WifiOff, { class: "text-white" }),
     });
   });
+
+  $socket.on("helpdesk:new_message", (data) => {
+    if (data.type === "alert") {
+      sonner(data.title, {
+        description: data.message,
+        duration: Infinity,
+        action: data.link
+          ? {
+              label: "Open",
+              onClick: () => {
+                window.location.href = data.link;
+              },
+            }
+          : undefined,
+      });
+    }
+  });
+
 });
 
 const AgentPortalRoot = defineAsyncComponent(
