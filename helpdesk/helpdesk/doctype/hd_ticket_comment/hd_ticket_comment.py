@@ -43,7 +43,7 @@ class HDTicketComment(HasMentions, Document):
                 "reference_name": ticket,
                 "status": ("!=", "Cancelled"),
             },
-            pluck="owner",
+            pluck="allocated_to",
         )
 
         for user in agents:

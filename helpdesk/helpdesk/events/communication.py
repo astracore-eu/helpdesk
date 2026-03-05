@@ -19,7 +19,7 @@ def after_insert(doc, method=None):
             "reference_name": ticket,
             "status": ("!=", "Cancelled")
         },
-        pluck="owner"
+        pluck="allocated_to"
     )
 
     for user in agents:
