@@ -192,7 +192,7 @@ const label = computed(() => {
 const agents = computed(() => {
   return (
     agentsList.data?.map((agent) => ({
-      label: agent.agent_name.trimEnd(),
+      label: (agent.agent_name || "").trimEnd(),
       value: agent.name,
     })) || []
   );
