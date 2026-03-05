@@ -7,13 +7,55 @@
       <div>
         <div v-for="(section, index) in coreFields" :key="index" :class="section.group ? 'flex gap-2 items-center w-full mb-3' : 'mb-3'
           ">
-          <template v-for="field in section.fields">
+          <!-- <template v-for="field in section.fields">
             <Link v-if="field.visible" :key="field.fieldname" :ref="(el) => setFieldRef(field.fieldname, el)"
               class="form-control-core" :id="field.fieldname" :class="section.group ? 'flex-1' : 'w-full'"
-              :page-length="10" :label="field.label" :placeholder="field.placeholder" :doctype="field.doctype"
+              :page-length="10" :label="field.label" :placeholder="field.placeholder" :disabled="section.disabled" :doctype="field.doctype"
               :modelValue="field.value" :required="field.required" @update:model-value="
                 (val: string) => handleFieldUpdate(field.fieldname, val, true)
               " />
+          </template> -->
+
+          <template v-for="field in section.fields">
+            <!-- Link fields -->
+            <Link
+              v-if="field.visible && field.fieldtype === 'Link'"
+              :key="field.fieldname"
+              :ref="(el) => setFieldRef(field.fieldname, el)"
+              class="form-control-core"
+              :id="field.fieldname"
+              :class="section.group ? 'flex-1' : 'w-full'"
+              :page-length="10"
+              :label="field.label"
+              :placeholder="field.placeholder"
+              :disabled="section.disabled"
+              :doctype="field.doctype"
+              :modelValue="field.value"
+              :required="field.required"
+              @update:model-value="
+                (val: string) => handleFieldUpdate(field.fieldname, val, true)
+              "
+            />
+
+            <div
+              v-else-if="field.visible"
+              :key="field.fieldname"
+              :class="section.group ? 'flex-1' : 'w-full'"
+            >
+              <!-- Label -->
+              <label class="block text-xs text-ink-gray-5 mb-1">
+                {{ field.label }}
+              </label>
+
+              <!-- Fake Link field -->
+              <div class="form-control-core">
+                <button disabled>
+                  <div class="truncate">
+                    {{ field.value || field.placeholder }}
+                  </div>
+                </button>
+              </div>
+            </div>
           </template>
         </div>
 
@@ -69,10 +111,18 @@ const coreFields = computed(() => {
     return [];
   }
   const _coreFields = [
-    { group: true, fields: [getField("ticket_type"), getField("priority")] },
-    { group: false, fields: [getField("customer")] },
-    { group: true, fields: [getField("agent_group")] },
+    { group: true, fields: [getField("ticket_type"), getField("priority")], disabled: false },
+    { group: false, fields: [getField("customer")], disabled: false },
+    { group: true, fields: [getField("agent_group")], disabled: false },
   ];
+
+  if (ticket.value?.doc?.customer_email) {
+    _coreFields.splice(2, 0, {
+      group: false,
+      fields: [getField("customer_email")],
+      disabled: true,
+    });
+  }
 
   _coreFields.forEach((section) => {
     section.fields = section.fields.map((f) => {

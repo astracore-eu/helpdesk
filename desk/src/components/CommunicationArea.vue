@@ -103,6 +103,10 @@ import { useShortcut } from "@/composables/shortcuts";
 import { showCommentBox, showEmailBox } from "@/pages/ticket/modalStates";
 import { ref, watch } from "vue";
 import { onClickOutside } from "@vueuse/core";
+import { inject } from "vue"
+import { TicketSymbol } from "@/types"
+
+const ticket = inject(TicketSymbol)
 
 const emit = defineEmits(["update"]);
 const content = defineModel("content");
@@ -149,14 +153,20 @@ function splitIfString(str: string | string[]) {
 }
 
 function replyToEmail(data: object) {
-  showEmailBox.value = true;
+  showEmailBox.value = true
+
+  const customerEmail = ticket?.value?.doc?.customer_email
+
+  const to = customerEmail
+    ? [customerEmail]
+    : splitIfString(data.to)
 
   emailEditorRef.value.addToReply(
     data.content,
-    splitIfString(data.to),
+    to,
     splitIfString(data.cc),
     splitIfString(data.bcc)
-  );
+  )
 }
 
 const props = defineProps({

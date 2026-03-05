@@ -50,6 +50,16 @@
             :placeholder="__('A short description')"
           />
         </div>
+        <div class="flex flex-col gap-2 mt-5">
+                  <span class="block text-sm text-gray-700">
+                    {{ __("Customer Email") }}
+                  </span>
+                  <FormControl
+                    v-model="customerEmail"
+                    type="email"
+                    :placeholder="__('john@example.com')"
+                  />
+        </div>
         <SearchArticles
           v-if="isCustomerPortal"
           :query="subject"
@@ -158,6 +168,7 @@ const { updateOnboardingStep } = useOnboarding("helpdesk");
 const { isManager, userId: userID } = useAuthStore();
 
 const subject = ref("");
+const customerEmail = ref("");
 const description = ref("");
 const attachments = ref([]);
 const templateFields = reactive({});
@@ -227,6 +238,7 @@ const ticket = createResource({
     doc: {
       description: description.value,
       subject: subject.value,
+      customer_email: customerEmail.value,
       template: props.templateId,
       ...templateFields,
     },
@@ -260,6 +272,7 @@ const ticket = createResource({
           user: userID,
           ticketID: data.name,
           subject: subject.value,
+          customer_email: customerEmail.value,
           description: description.value,
           customFields: templateFields,
         },
