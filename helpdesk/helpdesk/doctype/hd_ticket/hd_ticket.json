@@ -13,6 +13,7 @@
     "customer_email",
     "raised_by",
     "status",
+    "seen_by",
     "priority",
     "status_category",
     "cb00",
@@ -73,6 +74,12 @@
       "fieldname": "subject_section",
       "fieldtype": "Section Break",
       "options": "fa fa-flag"
+    },
+    {
+      "fieldname": "seen_by",
+      "label": "Seen By",
+      "fieldtype": "Table",
+      "options": "HD Ticket Seen"
     },
     {
       "bold": 1,

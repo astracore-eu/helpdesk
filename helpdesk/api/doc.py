@@ -115,8 +115,31 @@ def get_list_data(
         or []
     )
 
-    if doctype == "TP Call Log":
-        data = parse_call_logs(data)
+    if doctype == "HD Ticket" and data:
+        current_user = frappe.session.user
+
+        rows = frappe.db.sql("""
+            SELECT parent
+            FROM `tabHD Ticket Seen`
+            WHERE `user` = %s
+        """, (current_user,), as_dict=True)
+
+        seen_set = {r["parent"] for r in rows}
+
+        for row in data:
+            ticket_id = str(row["name"])
+
+            assigned = []
+            if row.get("_assign"):
+                try:
+                    assigned = frappe.parse_json(row["_assign"])
+                except Exception:
+                    assigned = []
+
+            if current_user not in assigned:
+                row["read"] = True
+            else:
+                row["read"] = ticket_id in seen_set
 
     fields = frappe.get_meta(doctype).fields
     fields = [field for field in fields if field.fieldtype not in no_value_fields]
