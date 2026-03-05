@@ -50,7 +50,7 @@
               <!-- Fake Link field -->
               <div class="form-control-core">
                 <button disabled>
-                  <div class="truncate">
+                  <div class="truncate ml-2">
                     {{ field.value || field.placeholder }}
                   </div>
                 </button>
