@@ -33,6 +33,9 @@ class HDTicketComment(HasMentions, Document):
         subject = frappe.db.get_value("HD Ticket", ticket, "subject") or ticket
         sender = frappe.db.get_value("User", self.commented_by, "full_name") or self.commented_by
 
+        frappe.db.delete("HD Ticket Seen", {"parent": ticket})
+        frappe.db.commit()
+
         agents = frappe.get_all(
             "ToDo",
             filters={

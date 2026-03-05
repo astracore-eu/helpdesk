@@ -114,6 +114,33 @@ const selectBannerActions = [
 const options = {
   doctype: "HD Ticket",
   columnConfig: {
+    subject: {
+      custom: ({ row, item }) => {
+        const unread = !row.read;
+
+        return h(
+          "div",
+          { class: "flex items-center gap-2 w-full" },
+          [
+            unread &&
+              h("span", {
+                class: "w-2 h-2 rounded-full bg-blue-500 shrink-0",
+              }),
+
+            h(
+              "span",
+              {
+                class: unread
+                  ? "font-semibold truncate flex-1"
+                  : "truncate flex-1",
+              },
+              item
+            ),
+          ]
+        );
+      },
+    },
+
     status: {
       custom: ({ item }) => {
         const status = getStatus(item);

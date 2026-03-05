@@ -63,6 +63,15 @@ const customizations: Resource<Customizations> = createResource({
   auto: true,
 });
 
+const markSeen = createResource({
+  url: "helpdesk.api.ticket.mark_ticket_seen",
+  cache: ["HD Ticket", "HD Ticker Seen"],
+})
+
+markSeen.submit({
+  ticket: route.params.ticketId,
+})
+
 provide(TicketSymbol, ticket);
 
 provide(
