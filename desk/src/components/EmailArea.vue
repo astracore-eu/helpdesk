@@ -115,6 +115,10 @@ import { ReplyAllIcon, ReplyIcon } from "./icons";
 import TicketSplitModal from "./ticket/TicketSplitModal.vue";
 import { useAuthStore } from "@/stores/auth";
 import { storeToRefs } from "pinia";
+import { inject } from "vue"
+import { TicketSymbol } from "@/types"
+
+const ticket = inject(TicketSymbol)
 
 const props = defineProps({
   activity: {
@@ -165,10 +169,21 @@ const status = computed(() => {
 
 const reply = () => {
   const user = auth.user.value;
+
+  const recipient =
+    ticket?.value?.doc?.customer_email ||
+    (user === sender.name ? to : sender.name);
+
   emit("reply", {
     content: content,
-    to: user === sender.name ? to : sender.name,
+    to: recipient,
   });
+
+  // const user = auth.user.value;
+  // emit("reply", {
+  //   content: content,
+  //   to: user === sender.name ? to : sender.name,
+  // });
 };
 
 const replyAll = () => {
