@@ -117,6 +117,29 @@ const options = {
     subject: {
       custom: ({ row, item }) => {
         const unread = !row.read;
+        console.log(row._assign)
+
+        if (row._assign === null) {
+          return h(
+            "div",
+            { class: "flex items-center gap-2 w-full" },
+            [
+                h("span", {
+                  class: "w-2 h-2 rounded-full bg-red-500 shrink-0",
+                }),
+
+              h(
+                "span",
+                {
+                  class: row._assign === null
+                    ? "font-semibold truncate flex-1"
+                    : "truncate flex-1",
+                },
+                item
+              ),
+            ]
+          );
+        }
 
         return h(
           "div",
