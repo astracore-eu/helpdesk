@@ -600,22 +600,28 @@ function resetState() {
 }
 
 onMounted(() => {
-  if (!route.query.view) {
-    currentView.value = {
-      label: __("List"),
-      icon: LucideAlignJustify,
-    };
-  }
-  if (!isCustomerPortal.value) {
-    $socket.on("helpdesk:new-ticket", () => {
-      listViewRef.value?.reload();
-    });
-  }
+    if (!route.query.view) {
+      currentView.value = {
+        label: __("List"),
+        icon: LucideAlignJustify,
+      };
+    }
+
+    if (!isCustomerPortal.value) {
+      $socket.on("helpdesk:new-ticket", () => {
+        listViewRef.value?.reload();
+      });
+
+      $socket.on("helpdesk:new_message", () => {
+        listViewRef.value?.reload();
+      });
+    }
 });
 
 onUnmounted(() => {
   if (!isCustomerPortal.value) {
     $socket.off("helpdesk:new-ticket");
+    $socket.off("helpdesk:new_message");
   }
 });
 
