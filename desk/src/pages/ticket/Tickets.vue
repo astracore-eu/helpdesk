@@ -122,15 +122,15 @@ const options = {
           "div",
           { class: "flex items-center gap-2 w-full" },
           [
-            unread &&
+            (unread || row._assign === null) &&
               h("span", {
-                class: "w-2 h-2 rounded-full bg-blue-500 shrink-0",
+                class: `w-2 h-2 rounded-full ${unread? "bg-blue-500": "bg-red-500"} shrink-0`,
               }),
 
             h(
               "span",
               {
-                class: unread
+                class: (unread || row._assign === null)
                   ? "font-semibold truncate flex-1"
                   : "truncate flex-1",
               },
@@ -577,17 +577,22 @@ function resetState() {
 }
 
 onMounted(() => {
-  if (!route.query.view) {
-    currentView.value = {
-      label: __("List"),
-      icon: LucideAlignJustify,
-    };
-  }
-  if (!isCustomerPortal.value) {
-    $socket.on("helpdesk:new-ticket", () => {
-      listViewRef.value?.reload();
-    });
-  }
+    if (!route.query.view) {
+      currentView.value = {
+        label: __("List"),
+        icon: LucideAlignJustify,
+      };
+    }
+
+    if (!isCustomerPortal.value) {
+      $socket.on("helpdesk:new-ticket", () => {
+        listViewRef.value?.reload();
+      });
+
+      $socket.on("helpdesk:new_message", () => {
+        listViewRef.value?.reload();
+      });
+    }
 });
 
 onUnmounted(() => {
