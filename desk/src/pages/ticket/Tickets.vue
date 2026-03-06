@@ -119,41 +119,19 @@ const options = {
         const unread = !row.read;
         console.log(row._assign)
 
-        if (row._assign === null) {
-          return h(
-            "div",
-            { class: "flex items-center gap-2 w-full" },
-            [
-                h("span", {
-                  class: "w-2 h-2 rounded-full bg-red-500 shrink-0",
-                }),
-
-              h(
-                "span",
-                {
-                  class: row._assign === null
-                    ? "font-semibold truncate flex-1"
-                    : "truncate flex-1",
-                },
-                item
-              ),
-            ]
-          );
-        }
-
         return h(
           "div",
           { class: "flex items-center gap-2 w-full" },
           [
-            unread &&
+            (unread || row._assign === null) &&
               h("span", {
-                class: "w-2 h-2 rounded-full bg-blue-500 shrink-0",
+                class: `w-2 h-2 rounded-full ${unread? "bg-blue-500": "bg-red-500"} shrink-0`,
               }),
 
             h(
               "span",
               {
-                class: unread
+                class: (unread || row._assign === null)
                   ? "font-semibold truncate flex-1"
                   : "truncate flex-1",
               },
