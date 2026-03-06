@@ -117,7 +117,6 @@ const options = {
     subject: {
       custom: ({ row, item }) => {
         const unread = !row.read;
-        console.log(row._assign)
 
         return h(
           "div",
