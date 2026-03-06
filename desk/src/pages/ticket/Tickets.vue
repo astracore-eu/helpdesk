@@ -598,7 +598,6 @@ onMounted(() => {
 onUnmounted(() => {
   if (!isCustomerPortal.value) {
     $socket.off("helpdesk:new-ticket");
-    $socket.off("helpdesk:new_message");
   }
 });
 
